@@ -103,9 +103,9 @@ bash install.sh
 
 | Models           | Download Link                                                                                                                                            | Supports                                      | Notes                                                                                       |
 |------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------|---------------------------------------------------------------------------------------------|
-| Helios-Base      | 🤗 [Huggingface](https://huggingface.co/BestWishYsh/Helios-Base) 🤖 [ModelScope](https://modelscope.cn/datasets/BestWishYSH/Helios-Base)                | T2V ✅ I2V ✅ V2V ✅ Interactive ✅           | Best Quality, with v-prediction, standard CFG and custom HeliosScheduler.                   |
-| Helios-Mid       | 🤗 [Huggingface](https://huggingface.co/BestWishYsh/Helios-Mid) 🤖 [ModelScope](https://modelscope.cn/datasets/BestWishYSH/Helios-Mid)                  | T2V ✅ I2V ✅ V2V ✅ Interactive ✅           | Intermediate Ckpt, with v-prediction, CFG-Zero* and custom HeliosScheduler.                 |
-| Helios-Distilled | 🤗 [Huggingface](https://huggingface.co/BestWishYsh/Helios-Distilled) 🤖 [ModelScope](https://modelscope.cn/datasets/BestWishYSH/Helios-Distilled)      | T2V ✅ I2V ✅ V2V ✅ Interactive ✅           | Best Efficiency, with x0-prediction and custom HeliosDMDScheduler.                          |
+| Helios-Base      | 🤗 [Huggingface](https://huggingface.co/BestWishYsh/Helios-Base) 🤖 [ModelScope](https://modelscope.cn/models/BestWishYSH/Helios-Base)                | T2V ✅ I2V ✅ V2V ✅ Interactive ✅           | Best Quality, with v-prediction, standard CFG and custom HeliosScheduler.                   |
+| Helios-Mid       | 🤗 [Huggingface](https://huggingface.co/BestWishYsh/Helios-Mid) 🤖 [ModelScope](https://modelscope.cn/models/BestWishYSH/Helios-Mid)                  | T2V ✅ I2V ✅ V2V ✅ Interactive ✅           | Intermediate Ckpt, with v-prediction, CFG-Zero* and custom HeliosScheduler.                 |
+| Helios-Distilled | 🤗 [Huggingface](https://huggingface.co/BestWishYsh/Helios-Distilled) 🤖 [ModelScope](https://modelscope.cn/models/BestWishYSH/Helios-Distilled)      | T2V ✅ I2V ✅ V2V ✅ Interactive ✅           | Best Efficiency, with x0-prediction and custom HeliosDMDScheduler.                          |
 
 
 
