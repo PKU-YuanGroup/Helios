@@ -309,7 +309,7 @@ For example, let's take Text-to-Video.
     --sample-type t2v \
     --model ./Helios-Base \
     --prompt "A vibrant tropical fish swimming gracefully among colorful coral reefs in a clear, turquoise ocean. The fish has bright blue and yellow scales with a small, distinctive orange spot on its side, its fins moving fluidly. The coral reefs are alive with a variety of marine life, including small schools of colorful fish and sea turtles gliding by. The water is crystal clear, allowing for a view of the sandy ocean floor below. The reef itself is adorned with a mix of hard and soft corals in shades of red, orange, and green. The photo captures the fish from a slightly elevated angle, emphasizing its lively movements and the vivid colors of its surroundings. A close-up shot with dynamic movement." \
-    --num-frames 600 \
+    --num-frames 99 \
     --seed 42 \
     --output helios_t2v_base.mp4
 
@@ -319,6 +319,7 @@ For example, let's take Text-to-Video.
     --prompt "A vibrant tropical fish swimming gracefully among colorful coral reefs in a clear, turquoise ocean. The fish has bright blue and yellow scales with a small, distinctive orange spot on its side, its fins moving fluidly. The coral reefs are alive with a variety of marine life, including small schools of colorful fish and sea turtles gliding by. The water is crystal clear, allowing for a view of the sandy ocean floor below. The reef itself is adorned with a mix of hard and soft corals in shades of red, orange, and green. The photo captures the fish from a slightly elevated angle, emphasizing its lively movements and the vivid colors of its surroundings. A close-up shot with dynamic movement." \
     --guidance-scale 5.0 --is-enable-stage2 \
     --pyramid-num-inference-steps-list 20 20 20 \
+    --num-frames 99 \
     --use-cfg-zero-star --use-zero-init --zero-steps 1 \
     --output helios_t2v_mid.mp4
 
@@ -347,11 +348,11 @@ For example, let's take Helios-Base. **(Native Support)**
   ```bash
   sglang generate \
     --model-path BestWishYsh/Helios-Base \
-    --prompt "A cat walking on the beach at sunset, cinematic lighting, high quality" \
+    --prompt "A vibrant tropical fish swimming gracefully among colorful coral reefs in a clear, turquoise ocean. The fish has bright blue and yellow scales with a small, distinctive orange spot on its side, its fins moving fluidly. The coral reefs are alive with a variety of marine life, including small schools of colorful fish and sea turtles gliding by. The water is crystal clear, allowing for a view of the sandy ocean floor below. The reef itself is adorned with a mix of hard and soft corals in shades of red, orange, and green. The photo captures the fish from a slightly elevated angle, emphasizing its lively movements and the vivid colors of its surroundings. A close-up shot with dynamic movement." \
     --negative-prompt "Bright tones, overexposed, static, blurred details, subtitles, style, works, paintings, images, static, overall gray, worst quality, low quality, JPEG compression residue, ugly, incomplete, extra fingers, poorly drawn hands, poorly drawn faces, deformed, disfigured, misshapen limbs, fused fingers, still picture, messy background, three legs, many people in the background, walking backwards" \
     --height 384 \
     --width 640 \
-    --num-frames 33 \
+    --num-frames 99 \
     --num-inference-steps 50 \
     --guidance-scale 5.0
   ```
@@ -365,11 +366,11 @@ For example, let's take Helios-Base. **(Diffusers Backend)**
   ```bash
   sglang generate \
     --model-path BestWishYsh/Helios-Base \
-    --prompt "A cat walking on the beach at sunset, cinematic lighting, high quality" \
+    --prompt "A vibrant tropical fish swimming gracefully among colorful coral reefs in a clear, turquoise ocean. The fish has bright blue and yellow scales with a small, distinctive orange spot on its side, its fins moving fluidly. The coral reefs are alive with a variety of marine life, including small schools of colorful fish and sea turtles gliding by. The water is crystal clear, allowing for a view of the sandy ocean floor below. The reef itself is adorned with a mix of hard and soft corals in shades of red, orange, and green. The photo captures the fish from a slightly elevated angle, emphasizing its lively movements and the vivid colors of its surroundings. A close-up shot with dynamic movement." \
     --negative-prompt "Bright tones, overexposed, static, blurred details, subtitles, style, works, paintings, images, static, overall gray, worst quality, low quality, JPEG compression residue, ugly, incomplete, extra fingers, poorly drawn hands, poorly drawn faces, deformed, disfigured, misshapen limbs, fused fingers, still picture, messy background, three legs, many people in the background, walking backwards" \
     --height 384 \
     --width 640 \
-    --num-frames 33 \
+    --num-frames 99 \
     --num-inference-steps 50 \
     --guidance-scale 5.0 \
     --backend diffusers
