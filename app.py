@@ -31,8 +31,10 @@ pipe = HeliosPyramidPipeline.from_pretrained(
 )
 
 pipe.to("cuda")
-# pipe.transformer.set_attention_backend("flash_hub")
-pipe.transformer.set_attention_backend("_flash_3_hub")
+try:
+    pipe.transformer.set_attention_backend("_flash_3_hub")
+except Exception:
+    pipe.transformer.set_attention_backend("flash_hub")
 
 # @spaces.GPU(duration=1500)
 # def compile_transformer():
