@@ -244,14 +244,14 @@ with gr.Blocks(css=CSS, title="Helios Video Generation", theme=gr.themes.Soft())
             [
                 "Image-to-Video",
                 "A towering emerald wave surges forward, its crest curling with raw power and energy. Sunlight glints off the translucent water, illuminating the intricate textures and deep green hues within the wave’s body. A thick spray erupts from the breaking crest, casting a misty veil that dances above the churning surface. As the perspective widens, the immense scale of the wave becomes apparent, revealing the restless expanse of the ocean stretching beyond. The scene captures the ocean’s untamed beauty and relentless force, with every droplet and ripple shimmering in the light. The dynamic motion and vivid colors evoke both awe and respect for nature’s might.",
-                "./examples/wave.jpg",
+                "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/diffusers/helios/wave.jpg",
                 None,
             ],
             [
                 "Video-to-Video",
                 "A bright yellow Lamborghini Huracn Tecnica speeds along a curving mountain road, surrounded by lush green trees under a partly cloudy sky. The car's sleek design and vibrant color stand out against the natural backdrop, emphasizing its dynamic movement. The road curves gently, with a guardrail visible on one side, adding depth to the scene. The motion blur captures the sense of speed and energy, creating a thrilling and exhilarating atmosphere. A front-facing shot from a slightly elevated angle, highlighting the car's aggressive stance and the surrounding greenery.",
                 None,
-                "./examples/car.mp4",
+                "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/diffusers/helios/car.mp4",
             ],
         ],
         inputs=[mode, prompt, image_input, video_input],
