@@ -11,7 +11,7 @@
 [![arXiv](https://img.shields.io/badge/arXiv-2603.04379-b31b1b.svg?logo=arxiv)](https://arxiv.org/abs/2603.04379)
 [![hf_paper](https://img.shields.io/badge/🤗-Paper%20In%20HF-red.svg)](https://huggingface.co/papers/2603.04379)
 [![Project Page](https://img.shields.io/badge/Project-Website-2ea44f)](https://pku-yuangroup.github.io/Helios-Page)
-[![hf_space](https://img.shields.io/badge/🤗-Gradio-00b4d8.svg)](https://huggingface.co/spaces/multimodalart/Helios-Distilled/)
+[![hf_space](https://img.shields.io/badge/🤗-Gradio-00b4d8.svg)](https://huggingface.co/spaces/BestWishYsh/Helios-14B-RealTime)
 [![HuggingFace](https://img.shields.io/badge/🤗-HuggingFace-blue)](https://huggingface.co/collections/BestWishYsh/helios)
 [![ModelScope](https://img.shields.io/badge/🤖-ModelScope-purple)](https://modelscope.cn/collections/BestWishYSH/Helios)
 [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/PKU-YuanGroup/Helios)
@@ -58,6 +58,7 @@ or you can click <a href="https://github.com/PKU-YuanGroup/Helios-Page/blob/main
 
 ## 📣 Latest News!!
 
+* `[2026.03.05]` 👋 We official release the [Gradio Demo](https://huggingface.co/spaces/BestWishYsh/Helios-14B-RealTime), welcome to try it.
 * `[2026.03.04]` 👋 We are excited to announce the release of the Helios [technical report](https://arxiv.org/abs/2603.04379) on arXiv. We welcome discussions and feedback!
 * `[2026.03.04]` 🚀 Day-0 support for [Ascend-NPU](https://www.hiascend.com)，with sincere gratitude to the Ascend Team for their support.
 * `[2026.03.04]` 🚀 Day-0 support for [Diffusers](https://github.com/huggingface/diffusers/pull/13208)，with special thanks to the HuggingFace Team for their support.
