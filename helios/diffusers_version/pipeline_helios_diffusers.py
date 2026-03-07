@@ -724,7 +724,7 @@ class HeliosPipeline(DiffusionPipeline, HeliosLoraLoaderMixin):
                     )[0]
 
                 if self.do_classifier_free_guidance:
-                    with self.transformer.cache_context("cond_uncond"):
+                    with self.transformer.cache_context("uncond"):
                         noise_uncond = self.transformer(
                             hidden_states=latents.to(transformer_dtype),
                             timestep=timestep,
