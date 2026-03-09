@@ -173,6 +173,10 @@ bash helios-mid_v2v.sh
 bash helios-distilled_t2v.sh
 bash helios-distilled_i2v.sh
 bash helios-distilled_v2v.sh
+
+# For Interactive
+# ⚠️ This feature is still under development — results may not always meet expectations
+cd scripts/inference/experiment_interactive
 ```
 
 ### Sanity Check
@@ -548,6 +552,10 @@ bash scripts/training/train_deepspeed.sh
 ```
 
 Training configuration can be adjusted in `scripts/training/configs`. You can use `scripts/training/compare_yaml.py` to check for configuration completeness or differences between stages.
+
+### Model Merging
+
+After training, you can use this [script](https://github.com/PKU-YuanGroup/Helios/blob/main/tools/merge_lora.py) to merge all the checkpoints and obtain the final safetensors file, similar to [this](https://huggingface.co/BestWishYsh/Helios-Distilled/tree/main/transformer).
 
 
 ## 📊 HeliosBench
