@@ -19,9 +19,8 @@
 
 [![Ascend](https://img.shields.io/badge/Inference-Ascend--NPU-red)](https://www.hiascend.com/)
 [![Diffusers](https://img.shields.io/badge/Inference-Diffusers-blueviolet)](https://github.com/huggingface/diffusers/pull/13208)
-[![vLLM-Omni](https://img.shields.io/badge/Backend-vLLM--Omni-orange)](https://github.com/vllm-project/vllm-omni/pull/1604)
 [![SGLang Diffusion](https://img.shields.io/badge/Backend-SGLang--Diffusion-yellow)](https://github.com/sgl-project/sglang/pull/19782)
-
+[![vLLM-Omni](https://img.shields.io/badge/Backend-vLLM--Omni-orange)](https://github.com/vllm-project/vllm-omni/pull/1604)
 
 
 
@@ -65,8 +64,8 @@ or you can click <a href="https://github.com/PKU-YuanGroup/Helios-Page/blob/main
 * `[2026.03.05]` 👋 We are excited to announce the release of the Helios [technical report](https://arxiv.org/abs/2603.04379) on arXiv. We welcome discussions and feedback!
 * `[2026.03.04]` 🚀 Day-0 support for [Ascend-NPU](https://www.hiascend.com)，with sincere gratitude to the Ascend Team for their support.
 * `[2026.03.04]` 🚀 Day-0 support for [Diffusers](https://github.com/huggingface/diffusers/pull/13208)，with special thanks to the HuggingFace Team for their support.
-* `[2026.03.04]` 🚀 Day-0 support for [vLLM-Omni](https://github.com/vllm-project/vllm-omni/pull/1604)，with heartfelt gratitude to the vLLM Team for their support.
 * `[2026.03.04]` 🚀 Day-0 support for [SGLang-Diffusion](https://github.com/sgl-project/sglang/pull/19782)，with huge thanks to the SGLang Team for their support.
+* `[2026.03.04]` 🚀 Day-0 support for [vLLM-Omni](https://github.com/vllm-project/vllm-omni/pull/1604)，with heartfelt gratitude to the vLLM Team for their support.
 * `[2026.03.04]` 🔥 We've released the training/inference code and weights of **Helios-Base**, **Helios-Mid** and **Helios-Distilled**.
 
 
@@ -76,8 +75,8 @@ If your work has improved **Helios** and you would like more people to see it, p
 
 * [Ascend-NPU](https://www.hiascend.com/): Developed by Huawei, this hardware is designed for efficient AI model training and inference, boosting performance in tasks like computer vision, natural language processing, and autonomous driving.
 * [Diffusers](https://github.com/huggingface/diffusers/pull/13208): A popular library designed for working with diffusion models and other generative models in deep learning. It supports easy integration and manipulation of a wide range of generative models.
-* [vLLM-Omni](https://github.com/vllm-project/vllm-omni/pull/1604): A fully disaggregated serving system for any-to-any models. vLLM-Omni breaks complex architectures into a stage-based graph, using a decoupled backend to maximize resource efficiency and throughput.
 * [SGLang-Diffusion](https://github.com/sgl-project/sglang/pull/19782): An inference framework for accelerated image and video generation using diffusion models. It provides an end-to-end unified pipeline with optimized kernels and an efficient scheduler loop.
+* [vLLM-Omni](https://github.com/vllm-project/vllm-omni/pull/1604): A fully disaggregated serving system for any-to-any models. vLLM-Omni breaks complex architectures into a stage-based graph, using a decoupled backend to maximize resource efficiency and throughput.
 * [Cache-DiT](https://github.com/vipshop/cache-dit/pull/834): A PyTorch-native and Flexible Inference Engine with Hybrid Cache Acceleration and Parallelism for DiTs. It built on top of the Diffusers library and now supports nearly ALL DiTs from Diffusers.
 
 ## ⚙️ Requirements and Installation
