@@ -57,7 +57,7 @@ or you can click <a href="https://github.com/PKU-YuanGroup/Helios-Page/blob/main
 
 ## 📣 Latest News!!
 
-* `[2026.03.12]` ⚡️ Please note that real-time generation performance depends not only on the GPU, but also on the CPU, memory, CUDA driver version, etc. As [tested by a user](https://github.com/PKU-YuanGroup/Helios/issues/3#issuecomment-4034710182) on better hardware, Helios can reach up to **20.89 FPS**!
+* `[2026.03.12]` ⚡️ Please note that real-time generation performance depends not only on the GPU, but also on the CPU, memory, CUDA driver version, etc. As [tested by a user](https://github.com/PKU-YuanGroup/Helios/issues/3#issuecomment-4034710182) on better hardware with single H100, Helios can reach up to **20.89 FPS**!
 * `[2026.03.08]` 👋 Helios now fully supports [Group Offloading](#-group-offloading-to-save-vram) and [Context Parallelism](#-context-parallelism-on-multiple-gpus)! These features significantly optimize VRAM (**only ~6GB**) usage and enable inference across multiple GPUs with *Ulysses Attention*, *Ring Attention*, *Unified Attention*, and *Ulysses Anything Attention*.
 * `[2026.03.06]` 🚀 [Cache-DiT](https://github.com/vipshop/cache-dit/pull/834) now supports Helios, it offers Fully Cache Acceleration and Parallelism support for Helios! Special thanks to the Cache-DiT Team for their amazing work.
 * `[2026.03.06]` 🚀 We fix the Parallel Inference logits for Helios, and provide an example [here](#-parallel-inference-on-multiple-gpus). Thanks [Cache-DiT Team](https://github.com/vipshop/cache-dit/pull/836). 
