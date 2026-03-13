@@ -3,23 +3,26 @@ from kernels import get_kernel
 
 
 try:
-    # raise NotImplementedError
+    # FA3 Only support Hopper (SM90, H100/H800)
+    major, _ = torch.cuda.get_device_capability()
+    if major < 9:
+        raise RuntimeError("FA3 requires Hopper (SM90+), current GPU not supported")
+    flash_attn3 = get_kernel("kernels-community/flash-attn3")
+    flash_attn_func = flash_attn3.flash_attn_func
+    flash_attn_varlen_func = flash_attn3.flash_attn_varlen_func
+    print("Flash Attn 3 is installed!")
+except (ImportError, RuntimeError):
     try:
-        flash_attn3 = get_kernel("kernels-community/flash-attn3")
-        flash_attn_func = flash_attn3.flash_attn_func
-        flash_attn_varlen_func = flash_attn3.flash_attn_varlen_func
-
-        print("Flash Attn 3 is installed!")
-    except ImportError:
         flash_attn2 = get_kernel("kernels-community/flash-attn2")
         flash_attn_func = flash_attn2.flash_attn_func
         flash_attn_varlen_func = flash_attn2.flash_attn_varlen_func
-
         print("Flash Attn 2 is installed!")
-except ImportError:
-    print("Flash Attn 2 / 3 is not installed!")
-    flash_attn_varlen_func = None
-    flash_attn_func = None
+    except ImportError:
+        print("Flash Attn 2 / 3 is not installed!")
+        flash_attn_varlen_func = None
+        flash_attn_func = None
+    # from flash_attn.cute import flash_attn_func, flash_attn_varlen_func
+
 
 try:
     # raise NotImplementedError
