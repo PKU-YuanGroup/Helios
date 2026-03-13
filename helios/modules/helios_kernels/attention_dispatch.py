@@ -21,7 +21,6 @@ except (ImportError, RuntimeError):
         print("Flash Attn 2 / 3 is not installed!")
         flash_attn_varlen_func = None
         flash_attn_func = None
-    # from flash_attn.cute import flash_attn_func, flash_attn_varlen_func
 
 
 try:
