@@ -133,8 +133,8 @@ Download models using modelscope-cli:
 ``` sh
 pip install modelscope
 modelscope download BestWishYSH/Helios-Base --local_dir BestWishYSH/Helios-Base
-modelscope download BestWishYSH/Helios-Mid --local-dir BestWishYSH/Helios-Mid
-modelscope download BestWishYSH/Helios-Distilled --local-dir BestWishYSH/HeliosDistillede
+modelscope download BestWishYSH/Helios-Mid --local_dir BestWishYSH/Helios-Mid
+modelscope download BestWishYSH/Helios-Distilled --local_dir BestWishYSH/HeliosDistillede
 ```
 
 ## 🚀 Inference
