@@ -34,6 +34,7 @@ from diffusers.utils.torch_utils import randn_tensor
 from diffusers.video_processor import VideoProcessor
 
 from ..pipelines.pipeline_output import HeliosPipelineOutput
+from ..modules.vae_parallel import VAEParallelConfig, vae_decode_parallel, vae_encode_parallel
 
 
 if is_torch_xla_available():
@@ -171,6 +172,59 @@ class HeliosPipeline(DiffusionPipeline, HeliosLoraLoaderMixin):
         self.vae_scale_factor_temporal = self.vae.config.scale_factor_temporal if getattr(self, "vae", None) else 4
         self.vae_scale_factor_spatial = self.vae.config.scale_factor_spatial if getattr(self, "vae", None) else 8
         self.video_processor = VideoProcessor(vae_scale_factor=self.vae_scale_factor_spatial)
+        self.vae_parallel_config: VAEParallelConfig | None = None
+
+    def enable_vae_parallelism(
+        self,
+        vae_temporal_chunk_size: int | None = None,
+        vae_temporal_split_mode: str = "chunk",
+    ):
+        """
+        Enable VAE parallelism for distributed video generation.
+
+        This allows the VAE encode/decode operations to be distributed across
+        multiple GPUs along the temporal dimension, significantly reducing
+        memory usage and compute time for long videos.
+
+        Args:
+            vae_temporal_chunk_size: Number of latent frames per temporal chunk.
+                When None, the latent tensor is split evenly across GPUs.
+            vae_temporal_split_mode: How to split temporal dimension.
+                - "chunk": Split into contiguous chunks (default, best for VAE locality)
+                - "interleave": Interleave frames across GPUs (better for communication overlap)
+
+        Example:
+            ```python
+            >>> pipe.enable_vae_parallelism(vae_temporal_chunk_size=9, vae_temporal_split_mode="chunk")
+            ```
+        """
+        import torch.distributed as dist
+
+        if not dist.is_available() or not dist.is_initialized():
+            raise RuntimeError(
+                "VAE parallelism requires a distributed environment. "
+                "Please initialize torch.distributed before enabling VAE parallelism."
+            )
+
+        world_size = dist.get_world_size()
+        rank = dist.get_rank()
+
+        if world_size < 2:
+            raise ValueError(
+                f"VAE parallelism requires at least 2 GPUs, but only {world_size} is available. "
+                "Use enable_parallelism for single-GPU optimization instead."
+            )
+
+        self.vae_parallel_config = VAEParallelConfig(
+            vae_temporal_chunk_size=vae_temporal_chunk_size,
+            vae_temporal_split_mode=vae_temporal_split_mode,
+        )
+        self.vae_parallel_rank = rank
+        self.vae_parallel_world_size = world_size
+
+        # Enable gradient checkpointing for VAE to save memory
+        if hasattr(self.vae, 'enable_gradient_checkpointing'):
+            self.vae.enable_gradient_checkpointing()
 
     def _get_t5_prompt_embeds(
         self,
@@ -1331,12 +1385,26 @@ class HeliosPipeline(DiffusionPipeline, HeliosLoraLoaderMixin):
                     real_history_latents[:, :, -num_latent_frames_per_chunk:].to(vae_dtype) / latents_std
                     + latents_mean
                 )
-                current_video = self.vae.decode(current_latents, return_dict=False)[0]
+
+                # Use VAE parallelism if enabled, otherwise use standard decode
+                if self.vae_parallel_config is not None:
+                    current_video = vae_decode_parallel(
+                        self.vae,
+                        current_latents,
+                        rank=self.vae_parallel_rank,
+                        world_size=self.vae_parallel_world_size,
+                        overlap_frames=2,  # Small overlap for boundary blending
+                    )
+                    if self.vae_parallel_rank != 0:
+                        current_video = None  # Only rank 0 will have the full video
+                else:
+                    current_video = self.vae.decode(current_latents, return_dict=False)[0]
 
                 if history_video is None:
                     history_video = current_video
                 else:
-                    history_video = torch.cat([history_video, current_video], dim=2)
+                    if current_video is not None:
+                        history_video = torch.cat([history_video, current_video], dim=2)
 
         self._current_timestep = None
 

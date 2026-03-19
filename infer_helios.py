@@ -160,6 +160,23 @@ def parse_args():
         help="Context parallel backend to use.",
     )
 
+    # === VAE parallelism ===
+    # VAE parallelism distributes encode/decode operations across GPUs along the temporal dimension
+    parser.add_argument("--enable_vae_parallelism", action="store_true")
+    parser.add_argument(
+        "--vae_temporal_chunk_size",
+        type=int,
+        default=None,
+        help="Number of latent frames per VAE temporal chunk. If None, splits evenly across GPUs.",
+    )
+    parser.add_argument(
+        "--vae_temporal_split_mode",
+        type=str,
+        choices=["chunk", "interleave"],
+        default="chunk",
+        help="How to split temporal dimension for VAE parallelism.",
+    )
+
     # === Group-Offloading ===
     # Please refer to https://huggingface.co/docs/diffusers/v0.37.0/en/optimization/memory#group-offloading
     parser.add_argument("--enable_low_vram_mode", action="store_true")
@@ -315,6 +332,13 @@ def main():
             raise ValueError(f"Unsupported cp_backend: {args.cp_backend}")
 
         pipe.transformer.enable_parallelism(config=cp_config)
+
+    # Enable VAE parallelism if requested
+    if world_size > 1 and args.enable_vae_parallelism:
+        pipe.enable_vae_parallelism(
+            vae_temporal_chunk_size=args.vae_temporal_chunk_size,
+            vae_temporal_split_mode=args.vae_temporal_split_mode,
+        )
 
     if args.prompt_txt_path is not None:
         with open(args.prompt_txt_path, "r") as f:
