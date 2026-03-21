@@ -1241,6 +1241,7 @@ def main(args):
                         latent_window_size=latent_window_size,
                         history_sizes=args.training_config.history_sizes,
                         is_random_drop=args.training_config.is_random_drop,
+                        random_drop_i2v_ratio=args.training_config.random_drop_i2v_ratio,
                         random_drop_v2v_ratio=args.training_config.random_drop_v2v_ratio,
                         random_drop_t2v_ratio=args.training_config.random_drop_t2v_ratio,
                         is_keep_x0=True,

@@ -199,6 +199,7 @@ class TrainingConfig:
     history_sizes: list[int] = field(default_factory=lambda: [16, 2, 1])
     latent_window_size: list[int] = field(default_factory=lambda: [9])
     is_random_drop: bool = field(default=False)
+    random_drop_i2v_ratio: float = field(default=0)
     random_drop_v2v_ratio: float = field(default=0)
     random_drop_t2v_ratio: float = field(default=0)
     is_amplify_history: bool = field(default=False)

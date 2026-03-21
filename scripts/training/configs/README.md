@@ -8,3 +8,7 @@ We use a three-stage progressive pipeline, all the setting can be found [here](.
 <div align=center>
   <img src="https://raw.githubusercontent.com/PKU-YuanGroup/Helios-Page/main/figures/training_configs.png">
 </div>
+
+## 💡 Important
+
+Based on the findings in [issue #38](https://github.com/PKU-YuanGroup/Helios/issues/38), we have identified several areas with potential for further improving Helios's performance. These include fixing the train-inference inconsistency in i2v to address the issue where i2v tends to produce very slow motion at the beginning, as well as fully enabling Easy Anti-Drifting to enhance Helios's resistance to quality degradation over time. For the relevant configuration details, please refer to [correct.yaml](./correct.yaml).

@@ -289,6 +289,10 @@ def corrupt_history_latents(
         f"corrupt_mode must be 'noise', 'downsample', or 'random', got '{corrupt_mode}'"
     )
 
+    clean_random = random.random()
+    if clean_random < noise_corrupt_clean_prob:
+        return latents_history_short, latents_history_mid, latents_history_long
+    
     # ==================== choose mode ====================
     if corrupt_mode == "random":
         mode = "noise" if random.random() < noise_mode_prob else "downsample"
@@ -297,10 +301,6 @@ def corrupt_history_latents(
 
     # ==================== noise branch ====================
     if mode == "noise":
-        clean_random = random.random()
-        if clean_random < noise_corrupt_clean_prob:
-            return latents_history_short, latents_history_mid, latents_history_long
-
         batch_size = latents_history_short.shape[0]
         if not is_frame_independent and not is_chunk_independent:
             noise_sigma = get_corrupt_noise_sigma(
@@ -613,6 +613,7 @@ def prepare_stage1_clean_input_from_latents(
     latent_window_size: int = 9,
     history_sizes: list = [16, 2, 1],
     is_random_drop: bool = False,
+    random_drop_i2v_ratio: float = 0,
     random_drop_v2v_ratio: float = 0,
     random_drop_t2v_ratio: float = 0,
     is_keep_x0: bool = True,
@@ -648,8 +649,7 @@ def prepare_stage1_clean_input_from_latents(
     latents_history_long, latents_history_mid, latents_history_1x = history_latents.split(history_sizes, dim=2)
 
     if is_random_drop:
-        if random_drop_t2v_ratio != 0:
-            if torch.rand(1).item() <= random_drop_t2v_ratio:
+        if random_drop_t2v_ratio != 0 and torch.rand(1).item() <= random_drop_t2v_ratio:
                 if is_keep_x0:
                     latents_prefix = torch.zeros_like(
                         latents_prefix, device=latents_history_1x.device, dtype=latents_history_1x.dtype
@@ -669,20 +669,28 @@ def prepare_stage1_clean_input_from_latents(
                     device=latents_history_1x.device,
                     dtype=latents_history_1x.dtype,
                 )
-        if random_drop_v2v_ratio != 0:
-            if torch.rand(1).item() <= random_drop_v2v_ratio:
-                len_4x = latents_history_long.shape[2]
-                len_2x = latents_history_mid.shape[2]
-                len_1x = latents_history_1x.shape[2]
-                hist_seq_len = len_4x + len_2x + len_1x
+        else:
+            len_4x = latents_history_long.shape[2]
+            len_2x = latents_history_mid.shape[2]
+            len_1x = latents_history_1x.shape[2]
+            hist_seq_len = len_4x + len_2x + len_1x
 
+            total_drop = 0
+            is_drop_triggered = False
+
+            if random_drop_i2v_ratio != 0 and torch.rand(1).item() <= random_drop_i2v_ratio:
+                total_drop = max(0, hist_seq_len - 1)
+                is_drop_triggered = True
+            elif random_drop_v2v_ratio != 0 and torch.rand(1).item() <= random_drop_v2v_ratio:
                 max_windows = hist_seq_len // latent_window_size
                 tail_num = hist_seq_len % latent_window_size
                 total_drop = tail_num
                 if max_windows > 0:
                     drop_windows = random.randint(0, max_windows)
                     total_drop += drop_windows * latent_window_size
+                is_drop_triggered = True
 
+            if is_drop_triggered and total_drop > 0:
                 remaining_drop = total_drop
                 if remaining_drop > 0 and len_4x > 0:
                     drop_4x = min(remaining_drop, len_4x)

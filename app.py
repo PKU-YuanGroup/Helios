@@ -5,6 +5,7 @@ import gradio as gr
 import spaces
 import torch
 
+from torch.utils._pytree import tree_map
 from diffusers import AutoencoderKLWan, HeliosDMDScheduler, HeliosPyramidPipeline
 from diffusers.utils import export_to_video, load_image, load_video
 
@@ -19,33 +20,82 @@ scheduler = HeliosDMDScheduler.from_pretrained(MODEL_ID, subfolder="scheduler")
 pipe = HeliosPyramidPipeline.from_pretrained(
     MODEL_ID, vae=vae, scheduler=scheduler, torch_dtype=torch.bfloat16, is_distilled=True
 )
-
 pipe.to("cuda")
-try:
-    pipe.transformer.set_attention_backend("_flash_3_hub")
-except Exception:
+
+cuda_major = torch.cuda.get_device_capability()[0]
+if cuda_major >= 9:
+    # H100/H800 (SM90+) with FA3
+    try:
+        pipe.transformer.set_attention_backend("_flash_3_hub")
+    except Exception:
+        pipe.transformer.set_attention_backend("flash_hub")
+else:
+    # 4090/A100 etc (SM89+) with FA2
     pipe.transformer.set_attention_backend("flash_hub")
 
-# @spaces.GPU(duration=1500)
-# def compile_transformer():
-#     with spaces.aoti_capture(pipe.transformer) as call:
-#         pipe("arbitrary example prompt")
+# ---------------------------------------------------------------------------
+# AoTI
+# ---------------------------------------------------------------------------
 
-#     exported = torch.export.export(
-#         pipe.transformer,
-#         args=call.args,
-#         kwargs=call.kwargs,
-#     )
-#     return spaces.aoti_compile(exported)
+# Dynamic shapes: within a generation, only hidden_states H/W change across
+# pyramid stages (history latents stay at full resolution). text_seq_length
+# varies between different prompts.
+_AUTO = torch.export.Dim.AUTO
 
-# compiled_transformer = compile_transformer()
-# spaces.aoti_apply(compiled_transformer, pipe.transformer)
+TRANSFORMER_DYNAMIC_SHAPES = {
+    "hidden_states": {
+        3: _AUTO,  # H — doubles each pyramid stage
+        4: _AUTO,  # W — doubles each pyramid stage
+    },
+    "encoder_hidden_states": {
+        1: _AUTO,  # text_seq_length — varies with prompt
+    },
+}
+
+INDUCTOR_CONFIGS = {
+    "conv_1x1_as_mm": True,
+    "epilogue_fusion": False,
+    "coordinate_descent_tuning": True,
+    "coordinate_descent_check_all_directions": True,
+    # "max_autotune": True,
+    "triton.cudagraphs": True,
+}
+
+@spaces.GPU(duration=1500) # maximum duration allowed during startup
+def compile_transformer():
+    with spaces.aoti_capture(pipe.transformer) as call:
+        pipe(
+            "arbitrary example prompt",
+            height=384,
+            width=640,
+            num_frames=33,
+            guidance_scale=1.0,
+            generator=torch.Generator(device="cuda").manual_seed(42),
+            pyramid_num_inference_steps_list=[2, 2, 2],
+            is_amplify_first_chunk=True,
+        )
+
+    dynamic_shapes = tree_map(lambda t: None, call.kwargs)
+    dynamic_shapes |= TRANSFORMER_DYNAMIC_SHAPES
+
+    with torch.no_grad():
+        exported = torch.export.export(
+            pipe.transformer,
+            args=call.args,
+            kwargs=call.kwargs,
+            dynamic_shapes=dynamic_shapes,
+        )
+
+    return spaces.aoti_compile(exported, INDUCTOR_CONFIGS)
+
+compiled_transformer = compile_transformer()
+spaces.aoti_apply(compiled_transformer, pipe.transformer)
 
 
 # ---------------------------------------------------------------------------
 # Generation
 # ---------------------------------------------------------------------------
-@spaces.GPU(duration=300)
+@spaces.GPU(duration=60)
 def generate_video(
     mode: str,
     prompt: str,

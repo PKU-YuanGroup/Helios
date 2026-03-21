@@ -1,0 +1,7 @@
+training_config:
+  # ---- Stage 1 Parameters ----
+  random_drop_i2v_ratio: 0.1  # should be changed according to valiation
+  # 
+  corrupt_mode_history: "random"
+  downsample_min_corrupt_ratio_history: 0.9  # should be changed according to valiation
+  downsample_max_corrupt_ratio_history: 1.0  # should be changed according to valiation
