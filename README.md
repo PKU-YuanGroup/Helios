@@ -128,9 +128,9 @@ bash install.sh
 Download models using huggingface-cli:
 ``` sh
 pip install "huggingface_hub[cli]"
-huggingface-cli download BestWishYSH/Helios-Base --local-dir BestWishYSH/Helios-Base
-huggingface-cli download BestWishYSH/Helios-Mid --local-dir BestWishYSH/Helios-Mid
-huggingface-cli download BestWishYSH/Helios-Distilled --local-dir BestWishYSH/Helios-Distilled
+hf download BestWishYSH/Helios-Base --local-dir BestWishYSH/Helios-Base
+hf download BestWishYSH/Helios-Mid --local-dir BestWishYSH/Helios-Mid
+hf download BestWishYSH/Helios-Distilled --local-dir BestWishYSH/Helios-Distilled
 ```
 
 Download models using modelscope-cli:
