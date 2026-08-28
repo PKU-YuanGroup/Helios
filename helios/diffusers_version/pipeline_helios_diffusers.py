@@ -1161,7 +1161,7 @@ class HeliosPipeline(DiffusionPipeline, HeliosLoraLoaderMixin):
         # 6. Denoising loop
         if use_interpolate_prompt:
             if num_latent_chunk < max(interpolate_cumulative_list):
-                num_latent_chunk = sum(interpolate_cumulative_list)
+                num_latent_chunk = max(interpolate_cumulative_list)
                 print(f"Update num_latent_chunk to: {num_latent_chunk}")
 
         if not is_enable_stage2:
