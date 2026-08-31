@@ -1502,7 +1502,6 @@ def main(args):
                                 history_sizes=args.training_config.history_sizes,
                                 # For Stage 2
                                 stage2_num_stages=args.training_config.stage2_num_stages,
-                                stage2_num_inference_steps_list=args.validation_config.stage2_simulated_inference_steps,
                                 # For ODE Main
                                 last_step_only=args.training_config.dmd_last_step_only,
                                 use_dynamic_shifting=args.training_config.use_dynamic_shifting,
