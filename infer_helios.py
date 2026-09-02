@@ -27,6 +27,7 @@ from helios.modules.helios_kernels import (
     replace_rmsnorm_with_fp32,
     replace_rope_with_flash_rope,
 )
+from helios.utils.attention_backend import configure_attention_backend
 from helios.utils.utils_base import load_extra_components
 
 from diffusers import ContextParallelConfig
@@ -246,16 +247,7 @@ def main():
         replace_rope_with_flash_rope()
 
     if not args.disable_flash_attention:        
-        cuda_major = torch.cuda.get_device_capability()[0]
-        if cuda_major >= 9:
-            # H100/H800 (SM90+) with FA3
-            try:
-                transformer.set_attention_backend("_flash_3_hub")
-            except Exception:
-                transformer.set_attention_backend("flash_hub")
-        else:
-            # 4090/A100 etc (SM89+) with FA2
-            transformer.set_attention_backend("flash_hub")
+        configure_attention_backend(transformer)
 
     vae = AutoencoderKLWan.from_pretrained(
         args.base_model_path,

@@ -8,6 +8,7 @@ import torch
 from torch.utils._pytree import tree_map
 from diffusers import AutoencoderKLWan, HeliosDMDScheduler, HeliosPyramidPipeline
 from diffusers.utils import export_to_video, load_image, load_video
+from helios.utils.attention_backend import configure_attention_backend
 
 
 # ---------------------------------------------------------------------------
@@ -22,16 +23,7 @@ pipe = HeliosPyramidPipeline.from_pretrained(
 )
 pipe.to("cuda")
 
-cuda_major = torch.cuda.get_device_capability()[0]
-if cuda_major >= 9:
-    # H100/H800 (SM90+) with FA3
-    try:
-        pipe.transformer.set_attention_backend("_flash_3_hub")
-    except Exception:
-        pipe.transformer.set_attention_backend("flash_hub")
-else:
-    # 4090/A100 etc (SM89+) with FA2
-    pipe.transformer.set_attention_backend("flash_hub")
+configure_attention_backend(pipe.transformer)
 
 # ---------------------------------------------------------------------------
 # AoTI
