@@ -51,6 +51,7 @@ or you can click <a href="https://github.com/PKU-YuanGroup/Helios-Page/blob/main
 
 ## 📣 Latest News!!
 
+* `[2026.11.01]` 🎉 Helios has been accepted by IEEE Transactions on Pattern Analysis and Machine Intelligence (TPAMI)!
 * `[2026.07.28]` 👋 [CNAPS.AI](https://cnaps.ai/) has provided a flexible workflow of Helios on their online inference service platform. You can check their [blog 1](https://docs.cnaps.ai/helios-base) and [blog 2](https://docs.cnaps.ai/helios-distilled) for an easy tutorial and more adaptable parameters to better use Helios there.
 * `[2026.03.26]` 🔥 Add summary of FAQ, Tips, and Tutorals: https://github.com/PKU-YuanGroup/Helios/issues/47.
 * `[2026.03.24]` 👋 A community-made, unofficial YouTube tutorial for Helios is available [here](https://www.youtube.com/watch?v=AvFniggt6qg). It covers installation on a **consumer-grade PC** and supports **4K video generation**.
