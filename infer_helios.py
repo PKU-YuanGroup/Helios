@@ -7,6 +7,7 @@ os.environ["HF_PARALLEL_LOADING_WORKERS"] = "8"
 
 import argparse
 import time
+import traceback
 
 import pandas as pd
 import torch
@@ -376,6 +377,7 @@ def main():
                         interpolate_time_list=interpolate_time_list,
                     ).frames[0]
                 except Exception:
+                    traceback.print_exc()
                     continue
             if not args.enable_parallelism or rank == 0:
                 export_to_video(output, output_path, fps=24)
@@ -434,6 +436,7 @@ def main():
                         interpolate_time_list=interpolate_time_list,
                     ).frames[0]
                 except Exception:
+                    traceback.print_exc()
                     continue
             if not args.enable_parallelism or rank == 0:
                 export_to_video(output, output_path, fps=24)
@@ -503,6 +506,7 @@ def main():
                         interpolate_time_list=interpolate_time_list,
                     ).frames[0]
                 except Exception:
+                    traceback.print_exc()
                     continue
             if not args.enable_parallelism or rank == 0:
                 export_to_video(output, output_path, fps=24)
