@@ -1,0 +1,43 @@
+$schema: reactor/v2
+
+model:
+  name: helios-distilled
+  version: v0.1.0
+  description: Helios-Distilled video from text, images or video with live prompt updates.
+  resources:
+    gpu:
+      type: NVIDIA_B200
+      count: 1
+    cpu:
+      request: "8"
+      limit: "24"
+    memory:
+      request: 48Gi
+      limit: 128Gi
+
+runtime:
+  import: helios_app:HeliosApp
+  config: helios.yaml
+  weights_path: ~/.cache/reactor_registry/helios
+  recording:
+    enabled: true
+    chunk_seconds: 4
+    clip_max_seconds: 300
+    video_track: main_video
+
+build:
+  runtime_version: "3.11.0"
+  python_requirements: requirements.txt
+  cuda_version: "12.8.1"
+  python_version: "3.12"
+  system_packages:
+    - git
+    - build-essential
+  run:
+    - git clone https://github.com/PKU-YuanGroup/Helios.git /opt/helios
+    - git -C /opt/helios checkout f1a8aadd7c42df29968b9ed73b5c3bc6ae2980c4
+  runtime_env:
+    TOKENIZERS_PARALLELISM: "false"
+    HF_ENABLE_PARALLEL_LOADING: "yes"
+    HF_PARALLEL_LOADING_WORKERS: "8"
+    PYTORCH_ALLOC_CONF: "expandable_segments:True"

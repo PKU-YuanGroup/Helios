@@ -542,6 +542,35 @@ For example, let's take Helios-Base. **(Diffusers Backend)**
 
 [![CNAPS.AI](https://github.com/user-attachments/assets/d04d94d0-1e64-4200-b76e-96cc597ae37f)](https://docs.cnaps.ai/helios-base)
 
+## Inference with Reactor Runtime
+
+The [Reactor guide and browser demo](reactor/README.md) stream Helios-Distilled
+from text, uploaded images or video, with live prompt changes. This optional
+integration uses one NVIDIA B200 and requires Docker, NVIDIA Container Toolkit,
+[Reactor CLI](https://docs.reactor.inc/deploy/platform/installation) and Node.js 22+.
+
+From the repository root, build and start the service:
+
+```sh
+cd reactor
+reactor build
+reactor run --gpus device=0 --shm-size 2g --port 8090
+```
+
+Wait until `curl -fsS http://localhost:8090/health` reports `"state":"available"`.
+In a second terminal, from the repository root:
+
+```sh
+cd reactor/demo
+npm ci
+npm run dev
+```
+
+Open the printed frontend URL (normally **http://localhost:5173**), set Runtime
+to **http://localhost:8090**, click **Connect**, select inputs, then **Start video**.
+Use **Update prompt** to guide the continuing scene. For remote GPUs, follow the
+[SSH and WebRTC instructions](reactor/README.md#remote-gpus-and-ssh).
+
 ## 🗝️ Training
 
 We use a three-stage progressive pipeline, all the setting can be found [here](./scripts/training/configs/). Stage-1 (Base) performs architectural adaptation: we apply Unified History Injection, Easy Anti-Drifting, and Multi-Term Memory Patchification to convert the bidirectional pretrained model into an autoregressive generator. Stage-2 (Mid) targets token compression by introducing Pyramid Unified Predictor Corrector, which aggressively reduces the number of noisy tokens and thus the overall computation. Stage-3 (Distilled) applies Adversarial Hierarchical Distillation, reducing the sampling steps from 50 to 3 and eliminating the need for classifier-free guidance (CFG). Throughout training, we apply dynamic shifting to all timestep-dependent operations to match the noise schedule to the latent size.

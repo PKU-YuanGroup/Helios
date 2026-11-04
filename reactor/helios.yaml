@@ -1,0 +1,3 @@
+source_path: /opt/helios
+compile: true
+warmup_chunks: 2

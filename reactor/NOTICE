@@ -1,0 +1,8 @@
+Helios-Distilled Reactor integration
+
+The native Helios implementation and the adapted outer inference loop are
+Copyright 2025 The Helios Team and The HuggingFace Team, licensed under
+Apache License 2.0: https://github.com/PKU-YuanGroup/Helios/blob/main/LICENSE.txt
+
+Reactor adapter and browser integration by Ruixing Zhang (Rising0321).
+The browser layout is adapted from the WorldCrafter Reactor demo by Rising0321.
