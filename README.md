@@ -51,6 +51,7 @@ or you can click <a href="https://github.com/PKU-YuanGroup/Helios-Page/blob/main
 
 ## 📣 Latest News!!
 
+* `[2026.11.05]` 👋 [Reactor Runtime](https://reactor.inc) now supports Helios!
 * `[2026.11.01]` 🎉 Helios has been accepted by IEEE Transactions on Pattern Analysis and Machine Intelligence (TPAMI)!
 * `[2026.07.28]` 👋 [CNAPS.AI](https://cnaps.ai/) has provided a flexible workflow of Helios on their online inference service platform. You can check their [blog 1](https://docs.cnaps.ai/helios-base) and [blog 2](https://docs.cnaps.ai/helios-distilled) for an easy tutorial and more adaptable parameters to better use Helios there.
 * `[2026.03.26]` 🔥 Add summary of FAQ, Tips, and Tutorals: https://github.com/PKU-YuanGroup/Helios/issues/47.
@@ -534,6 +535,39 @@ For example, let's take Helios-Base. **(Diffusers Backend)**
     --guidance-scale 5.0 \
     --backend diffusers
   ```
+</details>
+
+### ✨ Reactor Runtime Pipeline
+
+[Reactor Runtime](https://reactor.inc) supports streaming Helios-Distilled from text, images and video, with live prompt updates and a browser demo. See the [Reactor guide](reactor/README.md) for setup and usage.
+
+<details>
+  <summary>Click to expand the code</summary>
+
+  Requires one NVIDIA B200, Docker, NVIDIA Container Toolkit,
+  [Reactor CLI](https://docs.reactor.inc/deploy/platform/installation) and Node.js 22+.
+  From the repository root, build and start the service:
+
+  ```bash
+  cd reactor
+  reactor build
+  reactor run --gpus device=0 --shm-size 2g --port 8090
+  ```
+
+  Wait until `curl -fsS http://localhost:8090/health` reports `"state":"available"`.
+  In a second terminal, from the repository root:
+
+  ```bash
+  cd reactor/demo
+  npm ci
+  npm run dev
+  ```
+
+  Open the printed frontend URL (normally **http://localhost:5173**), set Runtime
+  to **http://localhost:8090**, click **Connect**, select inputs, then **Start video**.
+  Use **Update prompt** to guide the continuing scene. For remote GPUs, follow the
+  [SSH and WebRTC instructions](reactor/README.md#remote-gpus-and-ssh).
+
 </details>
 
 ### ✨ CNAPS.AI Online Workflow

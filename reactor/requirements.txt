@@ -1,0 +1,23 @@
+# Model dependencies resolved with Reactor Runtime during `reactor build`.
+# `build.runtime_version` in reactor.yaml selects the Runtime release.
+
+# This folder's direct dependencies.
+numpy
+Pillow
+PyYAML
+av
+huggingface-hub
+
+# Released Helios inference components; no training or ODE teacher assets.
+torch==2.10.0
+torchvision==0.25.0
+diffusers==0.38.0
+transformers==5.3.0
+accelerate==1.12.0
+peft==0.18.1
+ftfy
+sentencepiece
+
+# Native attention/torch.compile build tools.
+ninja
+packaging
