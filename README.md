@@ -51,6 +51,7 @@ or you can click <a href="https://github.com/PKU-YuanGroup/Helios-Page/blob/main
 
 ## 📣 Latest News!!
 
+* `[2026.11.08]` 👋 [SpecAR](https://github.com/statite-ai/SpecAR) accelerates Helios-Base 14B by generating most chunks with Helios-Distilled 14B, with no additional training.
 * `[2026.11.01]` 🎉 Helios has been accepted by IEEE Transactions on Pattern Analysis and Machine Intelligence (TPAMI)!
 * `[2026.07.28]` 👋 [CNAPS.AI](https://cnaps.ai/) has provided a flexible workflow of Helios on their online inference service platform. You can check their [blog 1](https://docs.cnaps.ai/helios-base) and [blog 2](https://docs.cnaps.ai/helios-distilled) for an easy tutorial and more adaptable parameters to better use Helios there.
 * `[2026.03.26]` 🔥 Add summary of FAQ, Tips, and Tutorals: https://github.com/PKU-YuanGroup/Helios/issues/47.
@@ -80,6 +81,7 @@ If your work has improved **Helios** and you would like more people to see it, p
 * [vLLM-Omni](https://github.com/vllm-project/vllm-omni/pull/1604): A fully disaggregated serving system for any-to-any models. vLLM-Omni breaks complex architectures into a stage-based graph, using a decoupled backend to maximize resource efficiency and throughput.
 * [Cache-DiT](https://github.com/vipshop/cache-dit/pull/834): A PyTorch-native and Flexible Inference Engine with Hybrid Cache Acceleration and Parallelism for DiTs. It built on top of the Diffusers library and now supports nearly ALL DiTs from Diffusers.
 * [CNAPS.AI](https://docs.cnaps.ai/helios-base): An AI creation platform for generating and editing visual content through text, images, and videos, with an accessible interface for creative production workflows.
+* [SpecAR](https://github.com/statite-ai/SpecAR): A training-free method for speeding up autoregressive video generation. Helios-Base generates a few evenly spaced chunks and Helios-Distilled generates the rest, both conditioned on the same video history.
 
 ## ⚙️ Requirements and Installation
 
