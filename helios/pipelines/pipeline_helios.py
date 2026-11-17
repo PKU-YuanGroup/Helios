@@ -299,8 +299,12 @@ class HeliosPipeline(DiffusionPipeline, WanLoraLoaderMixin):
         negative_prompt_embeds=None,
         callback_on_step_end_tensor_inputs=None,
     ):
-        if height % 16 != 0 or width % 16 != 0:
-            raise ValueError(f"`height` and `width` have to be divisible by 16 but are {height} and {width}.")
+        # The three-stage latent pyramid downsamples by 4 after the VAE's
+        # spatial factor of 8, and the transformer patches by 2, so both
+        # dimensions must be multiples of 64. A smaller multiple passes this
+        # check but fails later with a tensor size mismatch.
+        if height % 64 != 0 or width % 64 != 0:
+            raise ValueError(f"`height` and `width` have to be divisible by 64 but are {height} and {width}.")
 
         if callback_on_step_end_tensor_inputs is not None and not all(
             k in self._callback_tensor_inputs for k in callback_on_step_end_tensor_inputs
