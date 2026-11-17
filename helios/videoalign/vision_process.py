@@ -154,8 +154,11 @@ def smart_nframes(
         nframes = total_frames / video_fps * fps
         nframes = min(max(nframes, min_frames), max_frames)
         nframes = round_by_factor(nframes, FRAME_FACTOR)
+    # Clamp to the number of frames actually available. Keep FRAME_FACTOR:
+    # assigning total_frames verbatim would reintroduce an odd count and
+    # break the even-frame invariant the model inputs rely on.
     if nframes > total_frames:
-        nframes = total_frames
+        nframes = floor_by_factor(total_frames, FRAME_FACTOR)
     if not (FRAME_FACTOR <= nframes and nframes <= total_frames):
         raise ValueError(f"nframes should in interval [{FRAME_FACTOR}, {total_frames}], but got {nframes}.")
     return nframes
