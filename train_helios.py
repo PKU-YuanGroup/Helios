@@ -2439,7 +2439,7 @@ def log_validation(
     pipe = pipe.to(accelerator.device)
 
     # run inference
-    generator = torch.Generator(device=accelerator.device).manual_seed(args.seed) if args.seed else None
+    generator = torch.Generator(device=accelerator.device).manual_seed(args.seed) if args.seed is not None else None
 
     videos = []
     for _ in range(args.validation_config.num_validation_videos):
