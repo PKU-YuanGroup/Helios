@@ -22,9 +22,9 @@ class HeliosSchedulerOutput(BaseOutput):
     """
 
     prev_sample: torch.FloatTensor
-    model_outputs: torch.FloatTensor
-    last_sample: torch.FloatTensor
-    this_order: int
+    model_outputs: torch.FloatTensor | None = None
+    last_sample: torch.FloatTensor | None = None
+    this_order: int | None = None
 
 
 class HeliosScheduler(SchedulerMixin, ConfigMixin):
