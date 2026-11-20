@@ -721,6 +721,11 @@ def prepare_stage1_clean_input_from_latents(
     )
 
 
+def clone_error_inputs(noise, model_input):
+    """Error injection edits these in place, so keep the clean inputs intact."""
+    return noise.clone(), model_input.clone()
+
+
 def prepare_stage1_noise_input(
     args,
     model_input,
@@ -738,8 +743,7 @@ def prepare_stage1_noise_input(
     bsz = model_input.shape[0]
 
     use_clean_input = False
-    noise_w_error = noise
-    model_input_w_error = model_input
+    noise_w_error, model_input_w_error = clone_error_inputs(noise, model_input)
 
     # Sample a random timestep for each image
     # for weighting schemes where we sample timesteps non-uniformly
