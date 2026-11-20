@@ -651,6 +651,7 @@ def encode_prompt(
     dtype: Optional[torch.dtype] = torch.bfloat16,
 ):
     prompt = [prompt] if isinstance(prompt, str) else prompt
+    prompt_attention_mask = None
 
     if prompt_embeds is None:
         prompt_embeds, prompt_attention_mask = _get_t5_prompt_embeds(
