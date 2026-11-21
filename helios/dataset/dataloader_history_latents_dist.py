@@ -336,9 +336,8 @@ class BucketedSampler(Sampler):
             if not self.drop_last:
                 padding_size = self.num_sp_groups - (total_size % self.num_sp_groups)
                 indices_tensor = torch.cat([indices_tensor, indices_tensor[:padding_size]])
-        else:
-            # If drop_last, truncate to be divisible
-            if self.drop_last:
+            else:
+                # Truncate so every SP group gets the same number of indices.
                 truncate_size = (total_size // self.num_sp_groups) * self.num_sp_groups
                 indices_tensor = indices_tensor[:truncate_size]
 
