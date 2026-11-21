@@ -981,8 +981,9 @@ def prepare_stage2_clean_input(
                 sigmas = temp_sigmas
                 timesteps = temp_timesteps
 
+            sample_end_point = end_point
             if args.training_config.corrupt_model_input:
-                end_point = corrupt_model_input(
+                sample_end_point = corrupt_model_input(
                     end_point,
                     # choose mode
                     corrupt_mode=args.training_config.corrupt_mode_model_input,
@@ -997,13 +998,13 @@ def prepare_stage2_clean_input(
                     downsample_max_corrupt_ratio=args.training_config.downsample_max_corrupt_ratio_model_input,
                 )
 
-            noisy_latents = sigmas * start_point + (1 - sigmas) * end_point
+            noisy_latents = sigmas * start_point + (1 - sigmas) * sample_end_point
 
             # [stage1_latent, stage2_latent, ..., stagen_latent]
             noisy_latents_list.append(noisy_latents.to(dtype))
             sigmas_list.append(sigmas.to(dtype))
             timesteps_list.append(timesteps)
-            targets_list.append(start_point - end_point)  # The standard rectified flow matching objective
+            targets_list.append(start_point - sample_end_point)  # The standard rectified flow matching objective
 
     return noisy_latents_list, sigmas_list, timesteps_list, targets_list
 
